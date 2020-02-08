@@ -2,10 +2,11 @@ import os
 import os.path.join as join
 import torch
 import numpy as np
+from skimage.io import imread, imsavess
 from torchvision import transforms
 from torch.utils.data import Dataset, DataLoader
 from torchvision import transforms, utils
-from PIL import Image
+from skimage.io import imread, imsave
 class SemanticSegmentation(Dataset):
     """Semantic Segmentation dataset."""
 
@@ -50,9 +51,9 @@ class SemanticSegmentation(Dataset):
         if torch.is_tensor(idx):
             idx = idx.tolist()
         img_name = join(self.root,"Images",self.imagename[idx])
-        image = Image.open(img_name)
+        image = imread(img_name)
         msk_name = join(self.root,"Mask",self.imagename[idx])
-        mask = Image.open(msk_name)
+        mask = imread(msk_name)
 
         if self.transform:
             image = self.transform(image)
